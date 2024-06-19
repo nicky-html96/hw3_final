@@ -10,9 +10,8 @@ from pathlib import Path
 
 
 class BloodDriveDonate(object):
-    def __init__(self, env, num_screening_nurse, num_of_donors, num_physical_dr, num_blood_nurse, num_post_obs_staff,
+    def __init__(self, env, num_screening_nurse, num_of_donors, num_blood_nurse, num_post_obs_staff,
                  mean_interarrival_time, reg_time_mean, medical_screen_time_mean, medical_screen_time_sd,
-                 mini_physical_time_mean, mini_physical_time_sd,
                  blood_drawn_time_mean, blood_drawn_time_sd,
                  obs_time, post_obs_time_mean, rg
                  ):
@@ -28,15 +27,12 @@ class BloodDriveDonate(object):
         env
         num_screening_nurse
         num_of_donors
-        num_physical_dr
         num_blood_nurse
         num_post_obs_staff
         mean_interarrival_time
         reg_time_mean
         medical_screen_time_mean
         medical_screen_time_sd
-        mini_physical_time_mean
-        mini_physical_time_sd
         blood_drawn_time_mean
         blood_drawn_time_sd
         obs_time
@@ -57,7 +53,6 @@ class BloodDriveDonate(object):
         # Create SimPy resources
         self.screening_nurse = simpy.Resource(env, num_screening_nurse)
         self.donors = simpy.Resource(env, num_of_donors)
-        self.physical_dr = simpy.Resource(env, num_physical_dr)
         self.blood_nurse = simpy.Resource(env, num_blood_nurse)
         self.post_obs_staff = simpy.Resource(env, num_post_obs_staff)
 
@@ -67,8 +62,6 @@ class BloodDriveDonate(object):
         self.medical_screen_time_mean = medical_screen_time_mean
         self.medical_screen_time_sd = medical_screen_time_sd
         self.reg_time_mean = reg_time_mean
-        self.mini_physical_time_mean = mini_physical_time_mean
-        self.mini_physical_time_sd = mini_physical_time_sd
         self.blood_drawn_time_mean = blood_drawn_time_mean
         self.blood_drawn_time_sd = blood_drawn_time_sd
         self.obs_time = obs_time
@@ -79,9 +72,6 @@ class BloodDriveDonate(object):
 
     def medical_screening(self):
         yield self.env.timeout(self.rg.normal(self.medical_screen_time_mean, self.medical_screen_time_sd))
-
-    def mini_physical(self):
-        yield self.env.timeout(self.rg.normal(self.mini_physical_time_mean, self.mini_physical_time_sd))
 
     def blood_donation(self):
         yield self.env.timeout(self.rg.normal(self.blood_drawn_time_mean, self.blood_drawn_time_sd))
@@ -99,7 +89,7 @@ class BloodDriveDonate(object):
             yield self.env.proccess(self.registration())
             release_register_ts = self.env.now
 
-        with self.screening.request() as request:
+        with self.screening_nurse.request() as request:
             if not quiet:
                 print(f"Donor {donor} requested for medical screening at time {self.env.now}")
             yield request
@@ -107,6 +97,12 @@ class BloodDriveDonate(object):
             q_time = got_screening_ts - release_register_ts
             if not quiet:
                 print(f"Donor {donor} requested for medical screening at time {self.env.now}")
+            # Updates medical screening -increment by 1
+
+
+
+
+
 
 ### Stopped at vaccinator request
 
