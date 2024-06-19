@@ -104,9 +104,6 @@ class BloodDriveDonate(object):
 
 
 
-### Stopped at vaccinator request
-
-
 def compute_durations(timestamp_df):
     """Compute time durations of interest from timestamps dataframe and append new cols to dataframe"""
 
