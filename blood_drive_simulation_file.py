@@ -151,8 +151,9 @@ def main():
 
     hours, minutes, seconds = collect_average_wait_ts(wait_times)
     # output
-    print("Processing Simulation, please hold...",
-          f"\nThe average wait time is {hours} hour(s) {minutes} minutes and {seconds} seconds.")
+    print("Simulating Simulation. One moment please...!",
+          f"\nThe average wait time for a donor for this simulation is {hours} hour(s) {minutes} "
+          f"minutes and {seconds} seconds.")
 
 
 if __name__ == '__main__':

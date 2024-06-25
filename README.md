@@ -1,4 +1,5 @@
 # hw3-final
+Please take a look at the notes.md file for helpful information.
 
 Information on using this cookiecutter
 
